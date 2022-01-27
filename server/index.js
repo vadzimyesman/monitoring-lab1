@@ -129,10 +129,12 @@ app.get("/api/test", (req,res)=>{
     nonExistentFunction();
   } catch (err) {
     console.error(err);
+    res.sendStatus(400)
     rollbar.error("Function does not exist")
     // expected output: ReferenceError: nonExistentFunction is not defined
     // Note - error messages will vary depending on browser
   }
+  
 })
 
 
