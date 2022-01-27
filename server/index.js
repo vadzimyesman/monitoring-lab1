@@ -9,9 +9,6 @@ const { request } = require("express");
 
 const app = express();
 
-app.get('/', (req,res)=>{
-  res.sendFile(path.join(__dirname,'../client/index.html'))
-})
 
 app.use(cors());
 
@@ -23,8 +20,35 @@ app.listen(port, ()=>{
   console.log("Listening on port "+port)
 })
 
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: 'e8d844be5b5b4676bc843f8740851f41',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+rollbar.log('Hello world!!!')
+
+app.get('/', (req,res)=>{
+  
+  res.sendFile(path.join(__dirname,'../client/index.html'))
+  rollbar.info("HTML file was linked successfully")
+})
+
+app.get("/api/test", (req,res)=>{
+  try {
+    nonExistentFunction();
+  } catch (err) {
+    console.error(err);
+    rollbar.errorHandler("Function does not exist")
+    // expected output: ReferenceError: nonExistentFunction is not defined
+    // Note - error messages will vary depending on browser
+  }  
+})
+
 
 app.get("/api/compliment", (req, res) => {
+  rollbar.info("User just got a random compliment")
   const compliments = ["Gee, you're a smart cookie!",
 					 "Cool shirt!",
 					 "Your Javascript skills are stellar.",
@@ -40,6 +64,7 @@ app.get("/api/compliment", (req, res) => {
 
 
 app.get("/api/fortune", (req, res) => {
+  rollbar.info("User just got a random fortune")
   const fortunes = ["A beautiful, smart, and loving person will be coming into your life.",
 					 "A dubious friend may be an enemy in camouflage.",
 					 "A faithful friend is a strong defense.",
@@ -59,6 +84,7 @@ app.get("/api/fortune", (req, res) => {
 let phrases = []
 
 app.post('/api/phrase', (req, res) => {
+  rollbar.info("User just added a new motivation phrase")
   console.log(req.body)
   const { Phrase } = req.body
   phrases.push(Phrase)
@@ -68,12 +94,15 @@ app.post('/api/phrase', (req, res) => {
 //new endpoint
 let updates = phrases
 app.put('/api/updates',(req,res)=>{
+
  
   const {newPhrase,idToUpdate}=req.body
   
   updates.splice((parseInt(idToUpdate)-1),1,newPhrase)
   console.log(updates)
   res.status(200).send(updates)
+
+  rollbar.info(`User just updated phrase #${idToUpdate}`)
 })
 
 
@@ -87,9 +116,28 @@ app.delete(`/api/delete/:OurParam`,(req,res)=>{
   
   
   res.status(200).send(updatesAfterDelete)
+
+  rollbar.info(`User just deleted phrase #${idToDelete-1}`)
+
   console.log(updatesAfterDelete)
+})
+
+
+app.get("/api/test", (req,res)=>{
+
+  try {
+    nonExistentFunction();
+  } catch (err) {
+    console.error(err);
+    rollbar.error("Function does not exist")
+    // expected output: ReferenceError: nonExistentFunction is not defined
+    // Note - error messages will vary depending on browser
+  }
 })
 
 
 
 app.listen(4000, () => console.log("Server running on 4000"));
+
+
+

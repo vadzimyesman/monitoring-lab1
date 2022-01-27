@@ -13,6 +13,7 @@ document.getElementById("complimentButton").onclick = function () {
         .then(function (response) {
           const data = response.data;
           alert(data);
+        
         });
   };
 
@@ -103,15 +104,24 @@ const deletePhrase = (event)=>{
         
         
     })
-
-    
-
 }
 
 document.getElementById('delete-form').addEventListener("submit", deletePhrase)
 
 
 
+const triggerAnError = (event) =>{
+    axios.get("http://localhost:4000/api/test")
+    
+    .then((res)=>{
+        console.log(res.data)
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+}
+
+document.getElementById("trigger").addEventListener("click",triggerAnError)
 
 
 
