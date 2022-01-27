@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use(express.json()); // When we want to be able to accept JSON.
 
-app.use('/js', express.static(path.join(__dirname, '../client/main.js')))
+app.use(express.static(path.join(__dirname, '../client')))
 
 app.listen(port, ()=>{
   console.log("Listening on port "+port)
