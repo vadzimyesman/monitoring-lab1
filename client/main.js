@@ -1,7 +1,7 @@
 const pContainer = document.querySelector('#div1')
 
 document.getElementById("complimentButton").onclick = function () {
-    axios.get("http://localhost:4000/api/compliment/")
+    axios.get("/api/compliment/")
         .then(function (response) {
           const data = response.data;
           alert(data);
@@ -9,7 +9,7 @@ document.getElementById("complimentButton").onclick = function () {
   };
 
   document.getElementById("fortuneButton").onclick = function () {
-    axios.get("http://localhost:4000/api/fortune/")
+    axios.get("/api/fortune/")
         .then(function (response) {
           const data = response.data;
           alert(data);
@@ -25,7 +25,7 @@ document.getElementById("complimentButton").onclick = function () {
         Phrase: phraseInput.value
     }
 
-    axios.post(`http://localhost:4000/api/phrase`,body).then((res)=>{
+    axios.post(`/api/phrase`,body).then((res)=>{
         console.log(res.data)
       
            
@@ -56,7 +56,7 @@ const updatePhrase = (event)=>{
 
     }
 
-    axios.put(`http://localhost:4000/api/updates`,body).then((res)=>{
+    axios.put(`/api/updates`,body).then((res)=>{
         console.log(res.data)
       
             pContainer.innerHTML = ""
@@ -87,7 +87,7 @@ const deletePhrase = (event)=>{
     let idToDisplay = document.querySelector("#input4")
     let idToDelete = idToDisplay.value
 
-    axios.delete(`http://localhost:4000/api/delete/${idToDelete}`).then((res)=>{
+    axios.delete(`/api/delete/${idToDelete}`).then((res)=>{
         console.log(res.data)
       
             pContainer.innerHTML = ""
@@ -111,7 +111,7 @@ document.getElementById('delete-form').addEventListener("submit", deletePhrase)
 
 
 const triggerAnError = (event) =>{
-    axios.get("http://localhost:4000/api/test")
+    axios.get("/api/test")
     
     .then((res)=>{
         console.log(res.data)
