@@ -111,7 +111,7 @@ document.getElementById('delete-form').addEventListener("submit", deletePhrase)
 
 
 const triggerAnError = (event) =>{
-    axios.get("/api/test")
+    axios.get("http://localhost:4444/api/test")
     
     .then((res)=>{
         console.log(res.data)

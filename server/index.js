@@ -128,8 +128,8 @@ app.get("/api/test", (req,res)=>{
   try {
     nonExistentFunction();
   } catch (err) {
-    console.error(err);
-    res.sendStatus(400)
+    res.status(400).send("Hit the catch block")
+    
     rollbar.error("Function does not exist")
     // expected output: ReferenceError: nonExistentFunction is not defined
     // Note - error messages will vary depending on browser
@@ -139,7 +139,7 @@ app.get("/api/test", (req,res)=>{
 
 
 
-app.listen(4000, () => console.log("Server running on 4000"));
+//app.listen(4000, () => console.log("Server running on 4000"));
 
 
 
