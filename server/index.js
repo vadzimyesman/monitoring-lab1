@@ -10,7 +10,7 @@ const { request } = require("express");
 const app = express();
 
 app.get('/', (req,res)=>{
-  res.sendFile(path.join(__dirname,'../index.html'))
+  res.sendFile(path.join(__dirname,'../client/index.html'))
 })
 
 app.use(cors());
@@ -92,4 +92,4 @@ app.delete(`/api/delete/:OurParam`,(req,res)=>{
 
 
 
-app.listen(4000, () => console.log("Server running on 4000"));
+//app.listen(4000, () => console.log("Server running on 4000"));
